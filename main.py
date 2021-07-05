@@ -14,6 +14,7 @@ def load_image():
 def save_image(im):
     im.save("outfile.png", "PNG")
 
+
 # ------------------------------SET UP UI---------------------------------------- #
 
 window = Tk()
