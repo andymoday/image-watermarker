@@ -1,7 +1,18 @@
 from tkinter import *
+import os, sys
+from PIL import Image
 
 BACKGROUND_COLOR = "#456456"
 
+
+# ------------------------------FUNCTIONS---------------------------------------- #
+def load_image():
+    im = Image.open("test_img.png")
+    return im
+
+
+def save_image(im):
+    im.save("outfile.png", "PNG")
 
 # ------------------------------SET UP UI---------------------------------------- #
 
