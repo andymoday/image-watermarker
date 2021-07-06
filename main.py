@@ -1,5 +1,8 @@
 from tkinter import *
+from tkinter import ttk, filedialog
 import time
+from tkinter.messagebox import showinfo
+
 from PIL import Image, ImageChops
 
 BACKGROUND_COLOR = "#456456"
@@ -18,14 +21,43 @@ def image_controller():
     save_image(image)
 
 
+def open_file_dialog(filetypes, type):
+    if type == "image":
+        message = "Choose an Image"
+    elif type == "watermark":
+        message = "Choose a Watermark"
+
+    filename = filedialog.askopenfilename(
+        title=message,
+        initialdir='/',
+        filetypes=filetypes)
+
+    showinfo(
+        title='Selected File',
+        message=filename
+    )
+    return filename
+
+
 def load_image():
-    im = Image.open("test_img.png")
+    filetypes = (
+        ('PNG files', '*.png'),
+        ('JPEG files', '*.jpg'),
+        ('All files', '*.*')
+    )
+    filename = open_file_dialog(filetypes, type="image")
+    im = Image.open(filename)
     print(im.format)
     return im
 
 
 def load_watermark():
-    wm = Image.open("watermark.png")
+    filetypes = (
+        ('PNG files', '*.png'),
+        ('All files', '*.*')
+    )
+    watermark = open_file_dialog(filetypes, type="watermark")
+    wm = Image.open(watermark)
     wm = wm.convert("RGBA")
     wm_data = wm.getdata()
 
@@ -48,9 +80,10 @@ def save_image(im):
 
 window = Tk()
 window.title("Image Watermarker")
-window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
-
-add_image_button = Button(text="Select Image", command=image_controller)
+window.config(padx=110, pady=110, bg=BACKGROUND_COLOR)
+window.geometry("300x300")
+add_image_button = ttk.Button(text="Select Image", command=image_controller)
 add_image_button.grid(row=0, column=0)
+add_image_button.pack()
 
 window.mainloop()
